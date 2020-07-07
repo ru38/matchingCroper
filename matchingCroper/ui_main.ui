@@ -6,76 +6,489 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1208</width>
-    <height>872</height>
+    <width>1274</width>
+    <height>983</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="btn_pattrenMatch">
+   <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>500</y>
-      <width>111</width>
-      <height>71</height>
+      <x>5</x>
+      <y>5</y>
+      <width>1581</width>
+      <height>921</height>
      </rect>
     </property>
-    <property name="text">
-     <string>1_pattrenMatch</string>
+    <property name="currentIndex">
+     <number>4</number>
     </property>
-   </widget>
-   <widget class="QPushButton" name="btn_rotate">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>500</y>
-      <width>121</width>
-      <height>71</height>
-     </rect>
+    <property name="tabBarAutoHide">
+     <bool>false</bool>
     </property>
-    <property name="text">
-     <string>3_Rotated</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_findDegree">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>500</y>
-      <width>121</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>2_findDegree</string>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="groupBox">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>441</width>
-      <height>451</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>original</string>
-    </property>
-    <widget class="QLabel" name="lb_img1">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>70</y>
-       <width>421</width>
-       <height>371</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">
+    <widget class="QWidget" name="tab">
+     <attribute name="title">
+      <string>degree adjust</string>
+     </attribute>
+     <widget class="QPushButton" name="btn_findDegree_2">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>590</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>5_findDegree</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_save">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>680</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>9_Save</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_pattrenMatch_2">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>590</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>4_pattrenMatch</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_5">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>630</y>
+        <width>431</width>
+        <height>251</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>roi Info</string>
+      </property>
+      <widget class="QLabel" name="label_4">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>30</y>
+         <width>64</width>
+         <height>15</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>start X</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_5">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>60</y>
+         <width>64</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>start Y</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_6">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>100</y>
+         <width>64</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>end X</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_7">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>140</y>
+         <width>64</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>end Y</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_startX">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>20</y>
+         <width>111</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_startY">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>60</y>
+         <width>111</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_endX">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>100</y>
+         <width>111</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_endY">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>140</y>
+         <width>111</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_roiSave">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>20</y>
+         <width>91</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>roi Save</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lb_startX">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>24</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lb_startY">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>63</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lb_endX">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>103</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lb_endY">
+       <property name="geometry">
+        <rect>
+         <x>200</x>
+         <y>143</y>
+         <width>121</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_roiPath">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>180</y>
+         <width>401</width>
+         <height>64</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_roiLoad">
+       <property name="geometry">
+        <rect>
+         <x>330</x>
+         <y>100</y>
+         <width>91</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>roi Load</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_2">
+      <property name="geometry">
+       <rect>
+        <x>940</x>
+        <y>0</y>
+        <width>311</width>
+        <height>871</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>file List</string>
+      </property>
+      <widget class="QListView" name="listView">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>200</y>
+         <width>291</width>
+         <height>661</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_path3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>120</y>
+         <width>291</width>
+         <height>71</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_doAll">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>61</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do ALL</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_open3">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>61</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_doAll4">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>20</y>
+         <width>61</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do ALL
+1/4</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_doAll9">
+       <property name="geometry">
+        <rect>
+         <x>150</x>
+         <y>20</y>
+         <width>61</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do ALL
+1/9</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_doOnly9">
+       <property name="geometry">
+        <rect>
+         <x>80</x>
+         <y>70</y>
+         <width>61</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do ALL
+only1/9</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_4">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>460</y>
+        <width>371</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Degree info</string>
+      </property>
+      <widget class="QTextEdit" name="te_mvDegree">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>115</y>
+         <width>231</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lb_masterDegree">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>30</y>
+         <width>231</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(255, 255, 255);</string>
+       </property>
+       <property name="text">
+        <string>49.07594497393691</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_3">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>120</y>
+         <width>91</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>move degree</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_2">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>76</y>
+         <width>64</width>
+         <height>15</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>degree</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>30</y>
+         <width>91</width>
+         <height>20</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>masterDegree</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_degree">
+       <property name="geometry">
+        <rect>
+         <x>130</x>
+         <y>70</y>
+         <width>231</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_3">
+      <property name="geometry">
+       <rect>
+        <x>480</x>
+        <y>10</y>
+        <width>441</width>
+        <height>451</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>result</string>
+      </property>
+      <widget class="QLabel" name="lb_img2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>421</width>
+         <height>371</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
 
     border: 1px solid gray;
     border-radius: 4px;
@@ -83,117 +496,113 @@
 	margin-top: 0.2em;
 
 </string>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_open1">
-     <property name="geometry">
-      <rect>
-       <x>350</x>
-       <y>30</y>
-       <width>81</width>
-       <height>28</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Open</string>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="te_path1">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>30</y>
-       <width>331</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_2">
-    <property name="geometry">
-     <rect>
-      <x>920</x>
-      <y>10</y>
-      <width>261</width>
-      <height>791</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>file List</string>
-    </property>
-    <widget class="QListView" name="listView">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>150</y>
-       <width>241</width>
-       <height>631</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="te_path3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>70</y>
-       <width>241</width>
-       <height>71</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_doAll">
-     <property name="geometry">
-      <rect>
-       <x>142</x>
-       <y>20</y>
-       <width>111</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>do ALL</string>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_open3">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>20</y>
-       <width>121</width>
-       <height>41</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>Open</string>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_3">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>10</y>
-      <width>441</width>
-      <height>451</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>result</string>
-    </property>
-    <widget class="QLabel" name="lb_img2">
-     <property name="geometry">
-      <rect>
-       <x>10</x>
-       <y>70</y>
-       <width>421</width>
-       <height>371</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_viewBig">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>93</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>view Big</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="btn_roiCut">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>680</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>8_roi Cut</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_pattrenMatch">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>500</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>1_pattrenMatch</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_rotate">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>500</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>3_Rotated</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_roiSet">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>680</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>7_roi Set</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_findDegree">
+      <property name="geometry">
+       <rect>
+        <x>180</x>
+        <y>500</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>2_findDegree</string>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>441</width>
+        <height>451</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>original</string>
+      </property>
+      <widget class="QLabel" name="lb_img1">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>70</y>
+         <width>421</width>
+         <height>371</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
 
     border: 1px solid gray;
     border-radius: 4px;
@@ -201,359 +610,1210 @@
 	margin-top: 0.2em;
 
 </string>
-     </property>
-     <property name="text">
-      <string>TextLabel</string>
-     </property>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_open1">
+       <property name="geometry">
+        <rect>
+         <x>350</x>
+         <y>30</y>
+         <width>81</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_path1">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>331</width>
+         <height>31</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="btn_rotate_2">
+      <property name="geometry">
+       <rect>
+        <x>310</x>
+        <y>590</y>
+        <width>121</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>6_Rotated</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_roiSet_2">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>770</y>
+        <width>61</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>roi Set 
+1/4</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_roiCut_2">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>770</y>
+        <width>91</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>roi Cut 1/4 
++save</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_roiSet_3">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>770</y>
+        <width>61</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>roi Set 
+1/9</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_roiCut_3">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>770</y>
+        <width>91</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>roi Cut 1/9
++save</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_roiSet_4">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>850</y>
+        <width>61</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>roi Set </string>
+      </property>
+     </widget>
     </widget>
-   </widget>
-   <widget class="QPushButton" name="btn_roiCut">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>680</y>
-      <width>121</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>8_roi Cut</string>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_4">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>470</y>
-      <width>441</width>
-      <height>161</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>Degree info</string>
-    </property>
-    <widget class="QTextEdit" name="te_mvDegree">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>115</y>
-       <width>231</width>
-       <height>31</height>
-      </rect>
-     </property>
+    <widget class="QWidget" name="tab_2">
+     <attribute name="title">
+      <string>auto (subtract,absdiff,TemplateMatching)</string>
+     </attribute>
+     <widget class="QPushButton" name="btn_openlistCal">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>101</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>list open</string>
+      </property>
+     </widget>
+     <widget class="QListView" name="lv_list2">
+      <property name="geometry">
+       <rect>
+        <x>353</x>
+        <y>170</y>
+        <width>327</width>
+        <height>711</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QListView" name="lv_list1">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>170</y>
+        <width>327</width>
+        <height>711</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="te_dirCal">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>90</y>
+        <width>661</width>
+        <height>71</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_11">
+      <property name="geometry">
+       <rect>
+        <x>140</x>
+        <y>10</y>
+        <width>541</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Template matching</string>
+      </property>
+      <widget class="QComboBox" name="cb_pattrenMatch">
+       <property name="geometry">
+        <rect>
+         <x>70</x>
+         <y>20</y>
+         <width>261</width>
+         <height>41</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_doallCal">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>20</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do all</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_12">
+      <property name="geometry">
+       <rect>
+        <x>690</x>
+        <y>80</y>
+        <width>571</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>log</string>
+      </property>
+      <widget class="QTextEdit" name="te_log">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>551</width>
+         <height>381</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>14</pointsize>
+        </font>
+       </property>
+      </widget>
+      <widget class="QProgressBar" name="pbar_doallCal">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>410</y>
+         <width>551</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+       <property name="textVisible">
+        <bool>false</bool>
+       </property>
+       <property name="invertedAppearance">
+        <bool>false</bool>
+       </property>
+       <property name="textDirection">
+        <enum>QProgressBar::TopToBottom</enum>
+       </property>
+      </widget>
+     </widget>
     </widget>
-    <widget class="QLabel" name="lb_masterDegree">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>30</y>
-       <width>231</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="text">
-      <string>49.07594497393691</string>
-     </property>
+    <widget class="QWidget" name="tab_4">
+     <attribute name="title">
+      <string>auto (Histogram)</string>
+     </attribute>
+     <widget class="QPushButton" name="btn_openlistHisto">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>131</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>list open</string>
+      </property>
+     </widget>
+     <widget class="QListView" name="lv_listHisto">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>200</y>
+        <width>571</width>
+        <height>671</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="te_dirHisto">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>140</y>
+        <width>571</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_7">
+      <property name="geometry">
+       <rect>
+        <x>600</x>
+        <y>10</y>
+        <width>471</width>
+        <height>861</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Test</string>
+      </property>
+      <widget class="QLabel" name="lb_imgHisto">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>441</width>
+         <height>381</height>
+        </rect>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+
+    border: 1px solid gray;
+    border-radius: 4px;
+	background-color: rgb(255, 255, 255);
+	margin-top: 0.2em;
+
+</string>
+       </property>
+       <property name="text">
+        <string>Drag and Drop</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_pathHistoTest">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>441</width>
+         <height>61</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QLabel" name="lb_Histogram">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>540</y>
+         <width>441</width>
+         <height>311</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+
+    border: 1px solid gray;
+    border-radius: 4px;
+	background-color: rgb(255, 255, 255);
+	margin-top: 0.2em;
+
+</string>
+       </property>
+       <property name="text">
+        <string>Histogram Area</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_histogram">
+       <property name="geometry">
+        <rect>
+         <x>176</x>
+         <y>486</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>get Histogam</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="histNumTest2">
+       <property name="geometry">
+        <rect>
+         <x>96</x>
+         <y>490</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>256</number>
+       </property>
+       <property name="value">
+        <number>256</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="histNumTest1">
+       <property name="geometry">
+        <rect>
+         <x>16</x>
+         <y>490</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_histoResult">
+       <property name="geometry">
+        <rect>
+         <x>306</x>
+         <y>486</y>
+         <width>141</width>
+         <height>51</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_10">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>10</y>
+        <width>421</width>
+        <height>121</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Histogram</string>
+      </property>
+      <widget class="QPushButton" name="btn_doallHisto">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>20</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do all</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="histNum1">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>20</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>60</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="histNum2">
+       <property name="geometry">
+        <rect>
+         <x>165</x>
+         <y>20</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>256</number>
+       </property>
+       <property name="value">
+        <number>256</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_14">
+       <property name="geometry">
+        <rect>
+         <x>135</x>
+         <y>34</y>
+         <width>21</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>~</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_15">
+       <property name="geometry">
+        <rect>
+         <x>135</x>
+         <y>84</y>
+         <width>21</width>
+         <height>16</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>~</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_doallHisto_2">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>70</y>
+         <width>91</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do all</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="histNum1_2">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>70</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>100</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="histNum2_2">
+       <property name="geometry">
+        <rect>
+         <x>165</x>
+         <y>70</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>1</number>
+       </property>
+       <property name="maximum">
+        <number>256</number>
+       </property>
+       <property name="value">
+        <number>150</number>
+       </property>
+      </widget>
+     </widget>
     </widget>
-    <widget class="QLabel" name="label_3">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>120</y>
-       <width>91</width>
-       <height>16</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>move degree</string>
-     </property>
+    <widget class="QWidget" name="tab_5">
+     <attribute name="title">
+      <string>auto (Bright,ScaleChange)</string>
+     </attribute>
+     <widget class="QPushButton" name="btn_openlistBright">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>131</width>
+        <height>61</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>list open</string>
+      </property>
+     </widget>
+     <widget class="QListView" name="lv_listBright">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>170</y>
+        <width>531</width>
+        <height>691</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="te_dirBright">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>110</y>
+        <width>531</width>
+        <height>51</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_8">
+      <property name="geometry">
+       <rect>
+        <x>170</x>
+        <y>10</y>
+        <width>381</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Bright</string>
+      </property>
+      <widget class="QPushButton" name="btn_doallBright">
+       <property name="geometry">
+        <rect>
+         <x>280</x>
+         <y>20</y>
+         <width>81</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do all</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_8">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Min</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="histNum2Bright">
+       <property name="geometry">
+        <rect>
+         <x>180</x>
+         <y>25</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>-1000</number>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="singleStep">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>50</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_9">
+       <property name="geometry">
+        <rect>
+         <x>140</x>
+         <y>20</y>
+         <width>31</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Max</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="histNum1Bright">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>24</y>
+         <width>71</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>-1000</number>
+       </property>
+       <property name="maximum">
+        <number>1000</number>
+       </property>
+       <property name="singleStep">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>-50</number>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="scale">
+      <property name="geometry">
+       <rect>
+        <x>572</x>
+        <y>10</y>
+        <width>371</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Scale</string>
+      </property>
+      <widget class="QLabel" name="label_10">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>30</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Min</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_doallScale">
+       <property name="geometry">
+        <rect>
+         <x>270</x>
+         <y>20</y>
+         <width>81</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>do all</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_11">
+       <property name="geometry">
+        <rect>
+         <x>142</x>
+         <y>20</y>
+         <width>31</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Max</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="ScaleNum1">
+       <property name="geometry">
+        <rect>
+         <x>50</x>
+         <y>24</y>
+         <width>60</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="singleStep">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>70</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="ScaleNum2">
+       <property name="geometry">
+        <rect>
+         <x>176</x>
+         <y>24</y>
+         <width>60</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="minimum">
+        <number>0</number>
+       </property>
+       <property name="maximum">
+        <number>100</number>
+       </property>
+       <property name="singleStep">
+        <number>10</number>
+       </property>
+       <property name="value">
+        <number>80</number>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_12">
+       <property name="geometry">
+        <rect>
+         <x>114</x>
+         <y>30</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>%</string>
+       </property>
+      </widget>
+      <widget class="QLabel" name="label_13">
+       <property name="geometry">
+        <rect>
+         <x>240</x>
+         <y>29</y>
+         <width>31</width>
+         <height>31</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>%</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_9">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>100</y>
+        <width>471</width>
+        <height>551</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Test</string>
+      </property>
+      <widget class="QLabel" name="lb_imgScale">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>84</y>
+         <width>441</width>
+         <height>381</height>
+        </rect>
+       </property>
+       <property name="mouseTracking">
+        <bool>true</bool>
+       </property>
+       <property name="focusPolicy">
+        <enum>Qt::StrongFocus</enum>
+       </property>
+       <property name="acceptDrops">
+        <bool>true</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+
+    border: 1px solid gray;
+    border-radius: 4px;
+	background-color: rgb(255, 255, 255);
+	margin-top: 0.2em;
+
+</string>
+       </property>
+       <property name="text">
+        <string>Drag and Drop</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_pathScaleTest">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>441</width>
+         <height>61</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_scaleTest">
+       <property name="geometry">
+        <rect>
+         <x>120</x>
+         <y>480</y>
+         <width>121</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>scale Test</string>
+       </property>
+      </widget>
+      <widget class="QDoubleSpinBox" name="scaleNumTest">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>480</y>
+         <width>91</width>
+         <height>51</height>
+        </rect>
+       </property>
+       <property name="decimals">
+        <number>1</number>
+       </property>
+       <property name="minimum">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="maximum">
+        <double>1.000000000000000</double>
+       </property>
+       <property name="singleStep">
+        <double>0.100000000000000</double>
+       </property>
+       <property name="value">
+        <double>1.000000000000000</double>
+       </property>
+      </widget>
+     </widget>
     </widget>
-    <widget class="QLabel" name="label_2">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>76</y>
-       <width>64</width>
-       <height>15</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>degree</string>
-     </property>
+    <widget class="QWidget" name="tab_3">
+     <attribute name="title">
+      <string>auto (threshold)</string>
+     </attribute>
+     <widget class="QGroupBox" name="Thresholds_2">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>10</y>
+        <width>471</width>
+        <height>211</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Thresholds</string>
+      </property>
+      <widget class="QPushButton" name="btn_thresholdsLoad">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>130</y>
+         <width>91</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>thresholds
+Load</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_thresholdsSave">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>130</y>
+         <width>91</width>
+         <height>71</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>thresholds
+Save</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_3">
+       <property name="geometry">
+        <rect>
+         <x>280</x>
+         <y>70</y>
+         <width>61</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="cb_threshold">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>161</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_threshold">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>161</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>threshold</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_5">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>70</y>
+         <width>61</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_2">
+       <property name="geometry">
+        <rect>
+         <x>90</x>
+         <y>70</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>255</number>
+       </property>
+      </widget>
+      <widget class="QComboBox" name="cb_filter">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>100</y>
+         <width>181</width>
+         <height>22</height>
+        </rect>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_filter">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>30</y>
+         <width>181</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Filter</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_4">
+       <property name="geometry">
+        <rect>
+         <x>340</x>
+         <y>70</y>
+         <width>61</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>0</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox">
+       <property name="geometry">
+        <rect>
+         <x>9</x>
+         <y>70</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="btn_openlistTH">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>10</y>
+        <width>81</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>list open</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_doallTH">
+      <property name="geometry">
+       <rect>
+        <x>120</x>
+        <y>10</y>
+        <width>131</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>do all Threshold</string>
+      </property>
+     </widget>
+     <widget class="QListView" name="lv_listTH">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>140</y>
+        <width>351</width>
+        <height>661</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_6">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>230</y>
+        <width>471</width>
+        <height>511</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>original</string>
+      </property>
+      <widget class="QLabel" name="lb_imgTH">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>441</width>
+         <height>401</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">
+
+    border: 1px solid gray;
+    border-radius: 4px;
+	background-color: rgb(255, 255, 255);
+	margin-top: 0.2em;
+
+</string>
+       </property>
+       <property name="text">
+        <string>TextLabel</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_openTH">
+       <property name="geometry">
+        <rect>
+         <x>370</x>
+         <y>30</y>
+         <width>81</width>
+         <height>61</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open</string>
+       </property>
+      </widget>
+      <widget class="QTextEdit" name="te_pathTH">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>341</width>
+         <height>61</height>
+        </rect>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QTextEdit" name="te_dirTH">
+      <property name="geometry">
+       <rect>
+        <x>30</x>
+        <y>65</y>
+        <width>351</width>
+        <height>71</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="btn_doallFilter">
+      <property name="geometry">
+       <rect>
+        <x>260</x>
+        <y>10</y>
+        <width>121</width>
+        <height>51</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>do all Filter</string>
+      </property>
+     </widget>
     </widget>
-    <widget class="QLabel" name="label">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>91</width>
-       <height>20</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>masterDegree</string>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="te_degree">
-     <property name="geometry">
-      <rect>
-       <x>130</x>
-       <y>70</y>
-       <width>231</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="btn_save">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>680</y>
-      <width>121</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>9_Save</string>
-    </property>
-   </widget>
-   <widget class="QGroupBox" name="groupBox_5">
-    <property name="geometry">
-     <rect>
-      <x>470</x>
-      <y>640</y>
-      <width>441</width>
-      <height>181</height>
-     </rect>
-    </property>
-    <property name="title">
-     <string>roi Info</string>
-    </property>
-    <widget class="QLabel" name="label_4">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>30</y>
-       <width>64</width>
-       <height>15</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>start X</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_5">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>60</y>
-       <width>64</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>start Y</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_6">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>100</y>
-       <width>64</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>end X</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="label_7">
-     <property name="geometry">
-      <rect>
-       <x>20</x>
-       <y>140</y>
-       <width>64</width>
-       <height>31</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>end Y</string>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="te_startX">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>20</y>
-       <width>111</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="te_startY">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>60</y>
-       <width>111</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="te_endX">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>100</y>
-       <width>111</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QTextEdit" name="te_endY">
-     <property name="geometry">
-      <rect>
-       <x>80</x>
-       <y>140</y>
-       <width>111</width>
-       <height>31</height>
-      </rect>
-     </property>
-    </widget>
-    <widget class="QPushButton" name="btn_roiSave">
-     <property name="geometry">
-      <rect>
-       <x>330</x>
-       <y>20</y>
-       <width>91</width>
-       <height>151</height>
-      </rect>
-     </property>
-     <property name="text">
-      <string>roi Save</string>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lb_startX">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>20</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="text">
-      <string notr="true"/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lb_startY">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>60</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lb_endX">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>100</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-    <widget class="QLabel" name="lb_endY">
-     <property name="geometry">
-      <rect>
-       <x>200</x>
-       <y>140</y>
-       <width>121</width>
-       <height>21</height>
-      </rect>
-     </property>
-     <property name="styleSheet">
-      <string notr="true">background-color: rgb(255, 255, 255);</string>
-     </property>
-     <property name="text">
-      <string/>
-     </property>
-    </widget>
-   </widget>
-   <widget class="QPushButton" name="btn_roiSet">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>680</y>
-      <width>111</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>7_roi Set</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_pattrenMatch_2">
-    <property name="geometry">
-     <rect>
-      <x>40</x>
-      <y>590</y>
-      <width>111</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>4_pattrenMatch</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_findDegree_2">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>590</y>
-      <width>121</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>5_findDegree</string>
-    </property>
-   </widget>
-   <widget class="QPushButton" name="btn_rotate_2">
-    <property name="geometry">
-     <rect>
-      <x>290</x>
-      <y>590</y>
-      <width>121</width>
-      <height>71</height>
-     </rect>
-    </property>
-    <property name="text">
-     <string>6_Rotated</string>
-    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -561,18 +1821,50 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1208</width>
+     <width>1274</width>
      <height>26</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: white; 
+background-color: rgb(50, 50, 50);</string>
    </property>
    <widget class="QMenu" name="menuFile">
     <property name="title">
      <string>File</string>
     </property>
+    <addaction name="actionExit"/>
+   </widget>
+   <widget class="QMenu" name="menuOpenDir">
+    <property name="title">
+     <string>OpenDir</string>
+    </property>
+    <addaction name="actionOpenDir_2"/>
    </widget>
    <addaction name="menuFile"/>
+   <addaction name="menuOpenDir"/>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="styleSheet">
+    <string notr="true">color: white; 
+background-color: rgb(50, 50, 50);</string>
+   </property>
+  </widget>
+  <action name="actionOpenDir">
+   <property name="text">
+    <string>OpenDir</string>
+   </property>
+  </action>
+  <action name="actionOpenDir_2">
+   <property name="text">
+    <string>OpenDir</string>
+   </property>
+  </action>
+  <action name="actionExit">
+   <property name="text">
+    <string>Exit</string>
+   </property>
+  </action>
  </widget>
  <resources/>
  <connections/>
