@@ -6,6 +6,7 @@ import sys
 import cv2
 import numpy as np
 import os
+#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # or any {'0', '1', '2'}
 import math
 import shutil
 import random
@@ -16,7 +17,6 @@ from PIL import Image
 from PIL import ImageOps
 from PIL import ImageFile
 
-
 import scipy.misc
 from scipy.misc import toimage
 import json
@@ -26,6 +26,7 @@ import tkinter.font
 from tkinter import *
 import tkinter.filedialog
 from skimage.measure import compare_ssim
+import tensorflow as tf
 
 from matplotlib import pyplot as plt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -40,6 +41,8 @@ thresholdList =[cv2.THRESH_BINARY,cv2.THRESH_BINARY_INV,cv2.THRESH_TRUNC,cv2.THR
 thresholdList2 =["THRESH_BINARY","THRESH_BINARY_INV","THRESH_TRUNC","THRESH_TOZERO","THRESH_TOZERO_INV","THRESH_TRIANGLE"]
 filterList =[cv2.ADAPTIVE_THRESH_GAUSSIAN_C,cv2.ADAPTIVE_THRESH_MEAN_C]
 filterList2 =["GAUSSIAN","MEAN"]
+
+
 class MyMplCanvas(FigureCanvas):
   def __init__(self, parent=None, width=5, height=3, dpi=100):
       self.fig = Figure(figsize=(width, height), dpi=dpi)
@@ -55,7 +58,6 @@ class Main(QMainWindow):
    def __init__(self):
       super().__init__()   
       self.formMain=uic.loadUi('ui_main.ui',self)
-
       self.widgetImg1 = QHBoxLayout(self.lb_Histogram)  
       self.histoWidget = MyMplCanvas(self.lb_Histogram)  
       self.widgetImg1.addWidget(self.histoWidget)   
@@ -65,10 +67,12 @@ class Main(QMainWindow):
       self.setMouseTracking(True)
       self.lb_imgHisto.setAcceptDrops(True)
       self.lb_imgScale.setAcceptDrops(True)
+      self.lb_imgThreshold.setAcceptDrops(True)
 
+      ## Degree Adjust ## 
       self.btn_open1.clicked.connect(self.openDirectory0)
       self.btn_open3.clicked.connect(self.openDirectoryALL)
-      self.btn_openTH.clicked.connect(self.openDirectoryTH) #single picture
+      self.btn_openTH.clicked.connect(self.openDirectoryTH)
       self.actionOpenDir_2.triggered.connect(self.openMainDir)
       self.actionExit.triggered.connect(self.exit)
 
@@ -77,28 +81,9 @@ class Main(QMainWindow):
       self.btn_doAll9.clicked.connect(self.doAll3)
       self.btn_doOnly9.clicked.connect(self.doOnlyCrop9)
 
-      self.btn_openlistCal.clicked.connect(self.openAllCal)#for subtract.. etc..
-      self.btn_openlistTH.clicked.connect(self.openAllTH)#for threshold
-      self.btn_openlistHisto.clicked.connect(self.openAllHisto)#for Histogram
-      self.btn_openlistBright.clicked.connect(self.openAllBright)#for Bright Change
-
-      self.btn_doallCal.clicked.connect(self.doAllCal) #for automatic subtract
-      self.btn_doallTH.clicked.connect(self.doAllTH) 
-      self.btn_doallFilter.clicked.connect(self.doAllFilter) 
-      self.btn_doallHisto.clicked.connect(lambda:self.doAllHisto(self.histNum1.value(),self.histNum2.value()))
-      self.btn_doallHisto_2.clicked.connect(lambda:self.doAllHisto(self.histNum1_2.value(),self.histNum2_2.value()))
-
-      self.btn_doallBright.clicked.connect(self.doAllBright)
-      self.btn_doallScale.clicked.connect(self.doAllScale)
-
-      self.btn_histogram.clicked.connect(self.histogramTest)
-      self.btn_scaleTest.clicked.connect(self.scaleTest)
-
-      self.btn_viewBig.clicked.connect(self.viewBig)
       self.btn_pattrenMatch.clicked.connect(lambda:self.pattrenMatch(num=1,path = self.te_path1.toPlainText()))
       self.btn_rotate.clicked.connect(lambda:self.rotate(num=1,path=self.te_path1.toPlainText()))
       self.btn_findDegree.clicked.connect(self.findDegree)
-
       self.btn_pattrenMatch_2.clicked.connect(lambda:self.pattrenMatch(num=2,path=None))
       self.btn_rotate_2.clicked.connect(lambda:self.rotate(num=2, path=None))
       self.btn_findDegree_2.clicked.connect(self.findDegree)
@@ -114,18 +99,48 @@ class Main(QMainWindow):
       self.btn_save.clicked.connect(lambda:self.save(num=1,path=self.te_path1.toPlainText()))
       self.btn_roiSave.clicked.connect(self.roiSave)
       self.btn_roiLoad.clicked.connect(lambda:self.roiload(mode=1))
+      self.roiload(mode=0)
+      self.btn_viewBig.clicked.connect(self.viewBig)
 
-      self.btn_threshold.clicked.connect(self.threshold)
-      self.btn_filter.clicked.connect(self.filter)
-
+      ## MatchRate, SSIM ## 
+      self.btn_openlistCal.clicked.connect(self.openAllCal)#for subtract.. etc..
+      self.btn_doallCal.clicked.connect(self.doAllCal) #for automatic subtract
       self.cb_pattrenMatch.clear()
       self.cb_pattrenMatch.addItems(patternList2)
       self.cb_pattrenMatch.setCurrentIndex(1)
+
+      ## Histogram ## 
+      self.btn_openlistHisto.clicked.connect(self.openAllHisto)#for Histogram
+      self.btn_doallHisto.clicked.connect(lambda:self.doAllHisto(self.histNum1.value(),self.histNum2.value()))
+      self.btn_doallHisto_2.clicked.connect(lambda:self.doAllHisto(self.histNum1_2.value(),self.histNum2_2.value()))
+      self.btn_histogram.clicked.connect(self.histogramTest)
+
+      ## Bright, Scale Change ##
+      self.btn_openlistBright.clicked.connect(self.openAllBright)
+      self.btn_doallBright.clicked.connect(self.doAllBright)
+      self.btn_doallScale.clicked.connect(self.doAllScale)
+      self.btn_scaleTest.clicked.connect(self.scaleTest)
+
+      ## threshold ##
+      self.filterDoList=[]
+      self.filterDoListModel = QtGui.QStandardItemModel()
+      self.btn_openlistThreshold.clicked.connect(self.openAllThreshold)
+      self.btn_doallThreshold.clicked.connect(self.doAllThreshold) 
+      self.btn_threshold.clicked.connect(self.threshold)
+      self.btn_filter.clicked.connect(self.filter)
+      self.btn_morpOpen.clicked.connect(self.morpOpen)
+      self.btn_morpClose.clicked.connect(self.morpClose)
+      self.btn_resetThreshold.clicked.connect(self.resetThreshold)   
       self.cb_filter.clear()
       self.cb_filter.addItems(filterList2)
       self.cb_threshold.clear()
       self.cb_threshold.addItems(thresholdList2)
-      self.roiload(mode=0)
+      self.btn_resetDoList.clicked.connect(self.resetDoList)
+      self.rBtn_addListThreshold.clicked.connect(lambda:self.addToDoList("Threshold"))
+      self.rBtn_addListFilter.clicked.connect(lambda:self.addToDoList("Filter"))
+      self.rBtn_addListOpen.clicked.connect(lambda:self.addToDoList("Open"))
+      self.rBtn_addListClose.clicked.connect(lambda:self.addToDoList("Close"))
+
 
       self.show()
 
@@ -153,51 +168,125 @@ class Main(QMainWindow):
                   self.lb_imgScale.setPixmap(QtGui.QPixmap(fname))
                   self.lb_imgScale.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
                   self.lb_imgScale.setScaledContents(True)
+                if self.lb_imgThreshold.underMouse():
+                  self.te_pathThreshold.setText(fname)
+                  self.imgThreshold = cv2.imread(self.te_pathThreshold.toPlainText(),cv2.IMREAD_GRAYSCALE)
+                  self.lb_imgThreshold.setPixmap(QtGui.QPixmap(fname))
+                  self.lb_imgThreshold.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+                  self.lb_imgThreshold.setScaledContents(True)
         else:
             e.ignore()
 
+   def resetDoList(self):
+        self.filterDoList=[]
+        self.filterDoListModel = QtGui.QStandardItemModel()
+        self.lv_listTH_2.setModel( self.filterDoListModel)
+
+   def addToDoList(self,function):
+      print(function)
+      if function is '':
+         None
+         #buttonReply = QMessageBox.information(self, 'PyQt5 message', "Please choose Directory", QMessageBox.Ok )
+      else:
+         try:
+            self.filterDoList.append(function)
+            self.filterDoListModel.appendRow(QtGui.QStandardItem(function))
+            self.lv_listTH_2.setModel(self.filterDoListModel)
+
+         except Exception as ex:
+            print(ex)
+            print(sys.exc_info)
+            exMsg = QMessageBox.information(self, 'addToDoList', str(sys.exc_info()), QMessageBox.Ok )
+    
    def viewBig(self):
       try:
          cv2.imshow("img",self.dstBig)
       except Exception as ex:
          QMessageBox.information(self, 'viewBig', str(ex), QMessageBox.Ok )
 
-   def filter(self):    
+   def resetThreshold(self):
          try:
-            img = cv2.imread(self.te_pathTH.toPlainText(),cv2.IMREAD_GRAYSCALE)
-            im3 = cv2.adaptiveThreshold(img, self.spinBox_5.value(), filterList[self.cb_filter.currentIndex()], thresholdList[self.cb_threshold.currentIndex()], self.spinBox_3.value(), self.spinBox_4.value())   
-            cv2.imshow("filter",im3)
+            self.imgThreshold = cv2.imread(self.te_pathThreshold.toPlainText(),cv2.IMREAD_GRAYSCALE)
+            #self.lb_imgThreshold.setPixmap(QtGui.QPixmap.fromImage(scipy.misc.toimage(self.imgThreshold)))
          except Exception as ex:
             print(ex)
+  
 
+   def morpOpen(self):
+         try:
+            img = self.imgThreshold
+            kernel = np.ones((self.spinBox_open.value(), self.spinBox_open.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
+            self.imgThreshold=result
+            cv2.imshow("Source", img)
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def morpClose(self):
+         try:
+            img = self.imgThreshold
+            kernel = np.ones((self.spinBox_close.value(), self.spinBox_close.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+            self.imgThreshold=result
+            cv2.imshow("Source", img)
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
 
    def threshold(self):
          try:
-            img = cv2.imread(self.te_pathTH.toPlainText(),cv2.IMREAD_GRAYSCALE)
-            ret, im2 = cv2.threshold(img,self.spinBox.value(),self.spinBox_2.value(), thresholdList[self.cb_threshold.currentIndex()])
-            cv2.imshow("filter",im2)
+            img = self.imgThreshold
+            ret, result = cv2.threshold(img,self.spinBox.value(),self.spinBox_2.value(), thresholdList[self.cb_threshold.currentIndex()])
+            self.imgThreshold=result
+            cv2.imshow("Source", img)
+            cv2.imshow("Result", result)
          except Exception as ex:
             print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
 
-
-   def filter2 (self,dir,imgpath):    
+   def filter(self):    
          try:
-            img = cv2.imread(imgpath,cv2.IMREAD_GRAYSCALE)
-            im3 = cv2.adaptiveThreshold(img, self.spinBox_5.value(), filterList[self.cb_filter.currentIndex()], thresholdList[self.cb_threshold.currentIndex()], self.spinBox_3.value(), self.spinBox_4.value())   
-            filename = str(os.path.splitext(os.path.split(imgpath)[1])[0])
-            cv2.imwrite(dir+'/'+filename+'_filter.png',im3)
+            img = self.imgThreshold
+            result = cv2.adaptiveThreshold(img, self.spinBox_5.value(), filterList[self.cb_filter.currentIndex()], thresholdList[self.cb_threshold.currentIndex()], self.spinBox_3.value(), self.spinBox_4.value())   
+            self.imgThreshold=result
+            cv2.imshow("Source", img)
+            cv2.imshow("Result", result)
          except Exception as ex:
             print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
 
-
-   def threshold2 (self,dir,imgpath):
+   def morpOpen2(self,img):
          try:
-            img = cv2.imread(imgpath,cv2.IMREAD_GRAYSCALE)
-            ret, im2 = cv2.threshold(img,self.spinBox.value(),self.spinBox_2.value(), thresholdList[self.cb_threshold.currentIndex()])
-            filename = str(os.path.splitext(os.path.split(imgpath)[1])[0])
-            cv2.imwrite(dir+'/'+filename+'_threshold.png',im2)
+            kernel = np.ones((self.spinBox_open.value(), self.spinBox_open.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
          except Exception as ex:
             print(ex)
+         return result;
+
+   def morpClose2(self,img):
+         try:
+            kernel = np.ones((self.spinBox_close.value(), self.spinBox_close.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
+         except Exception as ex:
+            print(ex)
+         return result;
+
+   def threshold2(self,img):
+         try:
+            ret, result = cv2.threshold(img,self.spinBox.value(),self.spinBox_2.value(), thresholdList[self.cb_threshold.currentIndex()])
+         except Exception as ex:
+            print(ex)
+         return result;
+
+   def filter2(self,img):    
+         try:
+            result = cv2.adaptiveThreshold(img, self.spinBox_5.value(), filterList[self.cb_filter.currentIndex()], thresholdList[self.cb_threshold.currentIndex()], self.spinBox_3.value(), self.spinBox_4.value())   
+         except Exception as ex:
+            print(ex)
+         return result;
 
 
    def openAllCal(self):      
@@ -238,7 +327,7 @@ class Main(QMainWindow):
             exMsg = QMessageBox.information(self, 'openAll1', str(sys.exc_info()), QMessageBox.Ok )
 
 
-   def openAllTH(self):      
+   def openAllThreshold(self):      
       dirPath=''
       dirPath = (QFileDialog.getExistingDirectory(self, "Select dir"))
       print(dirPath)
@@ -250,6 +339,7 @@ class Main(QMainWindow):
          self.fileListTH = []
          self.fullFileListTH=[]
          self.fileListTH = os.listdir(dirPath)
+         self.fileListTH = [file for file in self.fileListTH if file.endswith(".png") or file.endswith(".jpg")]
          self.fileListTH.sort()
          model = QtGui.QStandardItemModel()
          for file in self.fileListTH:
@@ -274,6 +364,7 @@ class Main(QMainWindow):
          self.fileListHisto = []
          self.fullFileListHisto=[]
          self.fileListHisto = os.listdir(dirPath)
+         self.fileListHisto = [file for file in self.fileListHisto if file.endswith(".png") or file.endswith(".jpg")]
          self.fileListHisto.sort()
          model = QtGui.QStandardItemModel()
          for file in self.fileListHisto:
@@ -295,6 +386,7 @@ class Main(QMainWindow):
          self.fileListBright = []
          self.fullFileListBright=[]
          self.fileListBright = os.listdir(dirPath)
+         self.fileListBright = [file for file in self.fileListBright if file.endswith(".png") or file.endswith(".jpg")]
          self.fileListBright.sort()
          model = QtGui.QStandardItemModel()
          for file in self.fileListBright:
@@ -338,9 +430,7 @@ class Main(QMainWindow):
 
       (score, diff) = compare_ssim(grayA, grayB, full=True)
       diff = (diff * 255).astype("uint8")
-      print("skimageRate: {}".format(score))
-      self.te_log.setText(self.te_log.toPlainText()+"\n"+"skimageMatchRate:"+str(score))
-      self.te_log.moveCursor(QtGui.QTextCursor.End)
+      print("skimageSSIMRate: {}".format(score))
 
       #thresh = cv2.threshold(diff, 0, 255, cv2.THRESH_BINARY_INV | cv2.THRESH_OTSU)[1]
       ret,thresh = cv2.threshold(diff, 150, 256, cv2.THRESH_TRUNC)
@@ -391,8 +481,6 @@ class Main(QMainWindow):
       return str(res[0][0]),str(resMaster[0][0])
       '''
       print(res)
-      self.te_log.setText(self.te_log.toPlainText()+"\n"+"TemplateMatchRate:"+str(res[0][0]))
-      self.te_log.moveCursor(QtGui.QTextCursor.End)
       return str(res[0][0])
 
 
@@ -1062,11 +1150,12 @@ class Main(QMainWindow):
 
          try:
             lenght=len(self.fullFileList)
-            rst= self.cb_pattrenMatch.currentText()+"\nx,x1,matchrst,skirst\n"
+            rst= self.cb_pattrenMatch.currentText()+"\nx,x1,openCvTemplateMatch,skimageSSIM,tensorSSIM\n"
             for a in range(lenght):
                img1=self.fullFileList.pop()
                img2=self.fullFileList2.pop()
                print (img1[2:],img2[2:])
+               self.te_log.setText(self.te_log.toPlainText()+"\n--------------------------")
                self.te_log.setText(self.te_log.toPlainText()+"\n"+"["+img1[2:]+"]"+","+"["+img2[2:]+"]")
                self.te_log.moveCursor(QtGui.QTextCursor.End)
                img1=os.path.abspath(path+"/"+img1[2:])
@@ -1080,15 +1169,26 @@ class Main(QMainWindow):
                   self.te_log.setText(self.te_log.toPlainText()+"\n"+"img2 isfile false")
                   break
                self.absdiff2(img1,img2)
-               time.sleep(0.07)
+               time.sleep(0.05)
                self.subtract2(img1,img2)
-               time.sleep(0.07)
-               skirst = self.skimage(img1,img2)
-               time.sleep(0.07)
+               time.sleep(0.05)
                matchrst = self.pattrenMatchSimple(img1,img2)   
-               time.sleep(0.07)
-
-               rst = rst+img1+","+img2+","+matchrst+","+skirst+"\n"
+               self.te_log.setText(self.te_log.toPlainText()+"\n"+"TemplateMatchRate:"+matchrst)
+               self.te_log.moveCursor(QtGui.QTextCursor.End)
+               time.sleep(0.05)
+               skirst = self.skimage(img1,img2)
+               self.te_log.setText(self.te_log.toPlainText()+"\n"+"SkimageSSIMRate:"+skirst)
+               self.te_log.moveCursor(QtGui.QTextCursor.End)
+               time.sleep(0.05)
+               tensorrst="0"
+               '''
+               tensorrst = self.tensorSSIM(img1,img2)
+               self.te_log.setText(self.te_log.toPlainText()+"\n"+"TensorSSIMRate:"+tensorrst)
+               self.te_log.setText(self.te_log.toPlainText()+"\n--------------------------")
+               self.te_log.moveCursor(QtGui.QTextCursor.End)
+               time.sleep(0.05)
+               '''
+               rst = rst+img1+","+img2+","+matchrst+","+skirst+","+tensorrst+"\n"
                with open(path+"/result.csv", mode="w") as file:
                   file.writelines(rst)       
 
@@ -1111,53 +1211,47 @@ class Main(QMainWindow):
             exMsg = QMessageBox.information(self, 'doAllCal', str(sys.exc_info()), QMessageBox.Ok )
 
 
-   def doAllTH(self):
+   def doAllThreshold(self):
       print("start")
-      try:
-         if not(os.path.isdir(self.te_dirTH.toPlainText()+'/Threshold')):
-            os.makedirs(os.path.join(self.te_dirTH.toPlainText()+'/Threshold'))
-      except OSError as e:
-         if e.errno != errno.EEXIST:
-            print("Failed to create directory!!!!!")
-            raise
-      try:
-         for file in self.fullFileListTH:
-            print(file)
-            self.threshold2(self.te_dirTH.toPlainText()+'/Threshold',file)
+      if len(self.filterDoList) == 0:
+          None
+      else:
+          try:
+             if not(os.path.isdir(self.te_dirTH.toPlainText()+'/filter')):
+                os.makedirs(os.path.join(self.te_dirTH.toPlainText()+'/filter'))
+          except OSError as e:
+             if e.errno != errno.EEXIST:
+                print("Failed to create directory!!!!!")
+                raise
+          try:
+             for file in self.fullFileListTH:
+                print(file)
+                img = cv2.imread(file,cv2.IMREAD_GRAYSCALE)
+                itemlist=""
+                for item in self.filterDoList:
+                    itemlist=itemlist+item
+                    if item == "Threshold":
+                        img = self.threshold2(img)
+                    elif item == "Filter":
+                        img = self.filter2(img)
+                    elif item == "Open":
+                        img = self.morpOpen2(img)
+                    elif item == "Close":
+                        img = self.morpClose2(img)
+                    time.sleep(0.1)
+                filename = str(os.path.splitext(os.path.split(file)[1])[0])+item
+                cv2.imwrite(os.path.join(self.te_dirTH.toPlainText())+'/filter/'+filename+'_(+'+itemlist+').png',img)
+                print('filter/'+filename+'_(+'+itemlist+').png')    
+                time.sleep(0.1)
 
-         emtpymodel = QtGui.QStandardItemModel()
-         self.lv_listTH.setModel(emtpymodel)            
-         print("Complete!")
-         QMessageBox.information(self, 'doall', "Complete!!", QMessageBox.Ok )
+             self.resetDoList()
+             print("Complete!")
+             QMessageBox.information(self, 'doall', "Complete!!", QMessageBox.Ok )
 
-      except Exception as ex:
-         print(ex)
-         print(sys.exc_info)
-         exMsg = QMessageBox.information(self, 'doAllTH', str(sys.exc_info()), QMessageBox.Ok )
-
-
-   def doAllFilter(self):
-      print("start")
-      try:
-         if not(os.path.isdir(self.te_dirTH.toPlainText()+'/Filter')):
-            os.makedirs(os.path.join(self.te_dirTH.toPlainText()+'/Filter'))
-      except OSError as e:
-         if e.errno != errno.EEXIST:
-            print("Failed to create directory!!!!!")
-            raise
-      try:
-         for file in self.fullFileListTH:
-            print(file)
-            self.filter2(self.te_dirTH.toPlainText()+'/Filter',file)
-         emtpymodel = QtGui.QStandardItemModel()
-         self.lv_listTH.setModel(emtpymodel)            
-         print("Complete!")
-         QMessageBox.information(self, 'doall', "Complete!!", QMessageBox.Ok )
-
-      except Exception as ex:
-         print(ex)
-         print(sys.exc_info)
-         exMsg = QMessageBox.information(self, 'doAllFilter', str(sys.exc_info()), QMessageBox.Ok )
+          except Exception as ex:
+             print(ex)
+             print(sys.exc_info)
+             exMsg = QMessageBox.information(self, 'doAllTH', str(sys.exc_info()), QMessageBox.Ok )
 
 
    def doAllHisto(self,value1,value2):
@@ -1413,8 +1507,18 @@ class Main(QMainWindow):
        new_cropped = cv2.resize(cropped, (width, height)) 
        
        cv2.imshow(str(scale)+"zoom", new_cropped)
-
-
+   
+   def tensorSSIM(self, img1path,img2path):
+      #print(img1path)
+      #print(img2path)
+      image1 = tf.io.read_file(img1path)
+      image2 = tf.io.read_file(img2path)
+      im1 = tf.image.decode_png(image1,channels=1)
+      im2 = tf.image.decode_png(image2,channels=1)
+      ssim1 = tf.image.ssim(im1, im2, max_val=255, filter_size=11,filter_sigma=1.5, k1=0.01, k2=0.02) # 0< k2 <0.4
+      rst = str(ssim1).replace('tf.Tensor','')[1:-1].split(',')
+      print("tensorSSIM : "+rst[0])
+      return (rst[0])
 
 
 if  __name__ == "__main__":

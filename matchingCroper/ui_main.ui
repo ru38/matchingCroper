@@ -314,7 +314,7 @@
         <rect>
          <x>10</x>
          <y>70</y>
-         <width>61</width>
+         <width>90</width>
          <height>41</height>
         </rect>
        </property>
@@ -327,7 +327,7 @@
         <rect>
          <x>10</x>
          <y>20</y>
-         <width>61</width>
+         <width>90</width>
          <height>41</height>
         </rect>
        </property>
@@ -338,9 +338,9 @@
       <widget class="QPushButton" name="btn_doAll4">
        <property name="geometry">
         <rect>
-         <x>80</x>
+         <x>104</x>
          <y>20</y>
-         <width>61</width>
+         <width>90</width>
          <height>41</height>
         </rect>
        </property>
@@ -352,9 +352,9 @@
       <widget class="QPushButton" name="btn_doAll9">
        <property name="geometry">
         <rect>
-         <x>150</x>
+         <x>200</x>
          <y>20</y>
-         <width>61</width>
+         <width>90</width>
          <height>41</height>
         </rect>
        </property>
@@ -366,9 +366,9 @@
       <widget class="QPushButton" name="btn_doOnly9">
        <property name="geometry">
         <rect>
-         <x>80</x>
+         <x>105</x>
          <y>70</y>
-         <width>61</width>
+         <width>90</width>
          <height>41</height>
         </rect>
        </property>
@@ -657,7 +657,7 @@ only1/9</string>
        <rect>
         <x>50</x>
         <y>770</y>
-        <width>61</width>
+        <width>71</width>
         <height>71</height>
        </rect>
       </property>
@@ -669,7 +669,7 @@ only1/9</string>
      <widget class="QPushButton" name="btn_roiCut_2">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>140</x>
         <y>770</y>
         <width>91</width>
         <height>71</height>
@@ -683,9 +683,9 @@ only1/9</string>
      <widget class="QPushButton" name="btn_roiSet_3">
       <property name="geometry">
        <rect>
-        <x>270</x>
+        <x>240</x>
         <y>770</y>
-        <width>61</width>
+        <width>71</width>
         <height>71</height>
        </rect>
       </property>
@@ -697,9 +697,9 @@ only1/9</string>
      <widget class="QPushButton" name="btn_roiCut_3">
       <property name="geometry">
        <rect>
-        <x>340</x>
+        <x>330</x>
         <y>770</y>
-        <width>91</width>
+        <width>101</width>
         <height>71</height>
        </rect>
       </property>
@@ -1240,7 +1240,7 @@ only1/9</string>
       <widget class="QLabel" name="label_8">
        <property name="geometry">
         <rect>
-         <x>10</x>
+         <x>12</x>
          <y>30</y>
          <width>31</width>
          <height>31</height>
@@ -1277,7 +1277,7 @@ only1/9</string>
         <rect>
          <x>140</x>
          <y>20</y>
-         <width>31</width>
+         <width>41</width>
          <height>51</height>
         </rect>
        </property>
@@ -1288,7 +1288,7 @@ only1/9</string>
       <widget class="QSpinBox" name="histNum1Bright">
        <property name="geometry">
         <rect>
-         <x>50</x>
+         <x>46</x>
          <y>24</y>
          <width>71</width>
          <height>41</height>
@@ -1349,9 +1349,9 @@ only1/9</string>
       <widget class="QLabel" name="label_11">
        <property name="geometry">
         <rect>
-         <x>142</x>
+         <x>137</x>
          <y>20</y>
-         <width>31</width>
+         <width>41</width>
          <height>51</height>
         </rect>
        </property>
@@ -1529,48 +1529,20 @@ only1/9</string>
     </widget>
     <widget class="QWidget" name="tab_3">
      <attribute name="title">
-      <string>auto (threshold)</string>
+      <string>auto (threshold,filter)</string>
      </attribute>
      <widget class="QGroupBox" name="Thresholds_2">
       <property name="geometry">
        <rect>
         <x>390</x>
         <y>10</y>
-        <width>471</width>
-        <height>211</height>
+        <width>411</width>
+        <height>161</height>
        </rect>
       </property>
       <property name="title">
-       <string>Thresholds</string>
+       <string>Threshold</string>
       </property>
-      <widget class="QPushButton" name="btn_thresholdsLoad">
-       <property name="geometry">
-        <rect>
-         <x>110</x>
-         <y>130</y>
-         <width>91</width>
-         <height>71</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>thresholds
-Load</string>
-       </property>
-      </widget>
-      <widget class="QPushButton" name="btn_thresholdsSave">
-       <property name="geometry">
-        <rect>
-         <x>10</x>
-         <y>130</y>
-         <width>91</width>
-         <height>71</height>
-        </rect>
-       </property>
-       <property name="text">
-        <string>thresholds
-Save</string>
-       </property>
-      </widget>
       <widget class="QSpinBox" name="spinBox_3">
        <property name="geometry">
         <rect>
@@ -1694,11 +1666,37 @@ Save</string>
         <number>255</number>
        </property>
       </widget>
+      <widget class="QRadioButton" name="rBtn_addListThreshold">
+       <property name="geometry">
+        <rect>
+         <x>20</x>
+         <y>130</y>
+         <width>151</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>addList</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="rBtn_addListFilter">
+       <property name="geometry">
+        <rect>
+         <x>220</x>
+         <y>130</y>
+         <width>151</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>addList</string>
+       </property>
+      </widget>
      </widget>
-     <widget class="QPushButton" name="btn_openlistTH">
+     <widget class="QPushButton" name="btn_openlistThreshold">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>10</y>
         <width>81</width>
         <height>51</height>
@@ -1708,12 +1706,12 @@ Save</string>
        <string>list open</string>
       </property>
      </widget>
-     <widget class="QPushButton" name="btn_doallTH">
+     <widget class="QPushButton" name="btn_doallThreshold">
       <property name="geometry">
        <rect>
-        <x>120</x>
+        <x>100</x>
         <y>10</y>
-        <width>131</width>
+        <width>151</width>
         <height>51</height>
        </rect>
       </property>
@@ -1724,32 +1722,32 @@ Save</string>
      <widget class="QListView" name="lv_listTH">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>140</y>
-        <width>351</width>
-        <height>661</height>
+        <width>371</width>
+        <height>741</height>
        </rect>
       </property>
      </widget>
      <widget class="QGroupBox" name="groupBox_6">
       <property name="geometry">
        <rect>
-        <x>390</x>
-        <y>230</y>
-        <width>471</width>
-        <height>511</height>
+        <x>600</x>
+        <y>170</y>
+        <width>661</width>
+        <height>711</height>
        </rect>
       </property>
       <property name="title">
        <string>original</string>
       </property>
-      <widget class="QLabel" name="lb_imgTH">
+      <widget class="QLabel" name="lb_imgThreshold">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>100</y>
-         <width>441</width>
-         <height>401</height>
+         <x>6</x>
+         <y>50</y>
+         <width>650</width>
+         <height>650</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -1769,23 +1767,23 @@ Save</string>
       <widget class="QPushButton" name="btn_openTH">
        <property name="geometry">
         <rect>
-         <x>370</x>
-         <y>30</y>
-         <width>81</width>
-         <height>61</height>
+         <x>587</x>
+         <y>20</y>
+         <width>71</width>
+         <height>31</height>
         </rect>
        </property>
        <property name="text">
         <string>Open</string>
        </property>
       </widget>
-      <widget class="QTextEdit" name="te_pathTH">
+      <widget class="QTextEdit" name="te_pathThreshold">
        <property name="geometry">
         <rect>
-         <x>10</x>
-         <y>30</y>
-         <width>341</width>
-         <height>61</height>
+         <x>7</x>
+         <y>20</y>
+         <width>571</width>
+         <height>31</height>
         </rect>
        </property>
       </widget>
@@ -1793,25 +1791,158 @@ Save</string>
      <widget class="QTextEdit" name="te_dirTH">
       <property name="geometry">
        <rect>
-        <x>30</x>
+        <x>10</x>
         <y>65</y>
-        <width>351</width>
+        <width>371</width>
         <height>71</height>
        </rect>
       </property>
      </widget>
-     <widget class="QPushButton" name="btn_doallFilter">
+     <widget class="QGroupBox" name="groupBox_13">
       <property name="geometry">
        <rect>
-        <x>260</x>
+        <x>810</x>
         <y>10</y>
+        <width>311</width>
+        <height>161</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>Morphological</string>
+      </property>
+      <widget class="QPushButton" name="btn_morpClose">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>100</y>
+         <width>181</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Close</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="btn_morpOpen">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>30</y>
+         <width>181</width>
+         <height>28</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>Open</string>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_close">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>100</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>5</number>
+       </property>
+      </widget>
+      <widget class="QSpinBox" name="spinBox_open">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>30</y>
+         <width>81</width>
+         <height>22</height>
+        </rect>
+       </property>
+       <property name="maximum">
+        <number>255</number>
+       </property>
+       <property name="value">
+        <number>5</number>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="rBtn_addListClose">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>130</y>
+         <width>151</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>addList</string>
+       </property>
+      </widget>
+      <widget class="QRadioButton" name="rBtn_addListOpen">
+       <property name="geometry">
+        <rect>
+         <x>110</x>
+         <y>60</y>
+         <width>151</width>
+         <height>21</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>addList</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QPushButton" name="btn_resetThreshold">
+      <property name="geometry">
+       <rect>
+        <x>1130</x>
+        <y>20</y>
         <width>121</width>
-        <height>51</height>
+        <height>141</height>
        </rect>
       </property>
       <property name="text">
-       <string>do all Filter</string>
+       <string>RESET</string>
       </property>
+     </widget>
+     <widget class="QGroupBox" name="groupBox_14">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>170</y>
+        <width>201</width>
+        <height>711</height>
+       </rect>
+      </property>
+      <property name="title">
+       <string>DO LIST</string>
+      </property>
+      <widget class="QPushButton" name="btn_resetDoList">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>664</y>
+         <width>181</width>
+         <height>41</height>
+        </rect>
+       </property>
+       <property name="text">
+        <string>RESET</string>
+       </property>
+      </widget>
+      <widget class="QListView" name="lv_listTH_2">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>20</y>
+         <width>181</width>
+         <height>641</height>
+        </rect>
+       </property>
+      </widget>
      </widget>
     </widget>
    </widget>
@@ -1822,7 +1953,7 @@ Save</string>
      <x>0</x>
      <y>0</y>
      <width>1274</width>
-     <height>26</height>
+     <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
