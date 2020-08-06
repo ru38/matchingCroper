@@ -12,7 +12,7 @@
     <OutputPath>.</OutputPath>
     <Name>matchingCroper</Name>
     <RootNamespace>matchingCroper</RootNamespace>
-    <InterpreterId>{e0972259-2a1d-4d47-b485-ad233e2933d1}</InterpreterId>
+    <InterpreterId>{07d121e4-8020-4d23-8a1a-6b80d9da3172}</InterpreterId>
     <InterpreterVersion>3.5</InterpreterVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -30,7 +30,7 @@
     <Content Include="ui_main.ui" />
   </ItemGroup>
   <ItemGroup>
-    <InterpreterReference Include="{e0972259-2a1d-4d47-b485-ad233e2933d1}\3.5" />
+    <InterpreterReference Include="{07d121e4-8020-4d23-8a1a-6b80d9da3172}\3.5" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

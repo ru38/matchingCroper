@@ -6,7 +6,9 @@ import sys
 import cv2
 import numpy as np
 import os
-#os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  # or any {'0', '1', '2'}
+os.environ["CUDA_VISIBLE_DEVICES"] = "-1" #not use gpu
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'  #log level, {'0', '1', '2'}
+
 import math
 import shutil
 import random
@@ -68,6 +70,9 @@ class Main(QMainWindow):
       self.lb_imgHisto.setAcceptDrops(True)
       self.lb_imgScale.setAcceptDrops(True)
       self.lb_imgThreshold.setAcceptDrops(True)
+      self.lb_mask.setAcceptDrops(True)
+      self.lb_img1.setAcceptDrops(True)
+      self.lb_img2.setAcceptDrops(True)
 
       ## Degree Adjust ## 
       self.btn_open1.clicked.connect(self.openDirectory0)
@@ -102,12 +107,21 @@ class Main(QMainWindow):
       self.roiload(mode=0)
       self.btn_viewBig.clicked.connect(self.viewBig)
 
-      ## MatchRate, SSIM ## 
+      ## absdiff, MatchRate, SSIM ## 
       self.btn_openlistCal.clicked.connect(self.openAllCal)#for subtract.. etc..
       self.btn_doallCal.clicked.connect(self.doAllCal) #for automatic subtract
       self.cb_pattrenMatch.clear()
       self.cb_pattrenMatch.addItems(patternList2)
       self.cb_pattrenMatch.setCurrentIndex(1)
+      self.btn_add.clicked.connect(self.add)
+      self.btn_sub.clicked.connect(self.sub)
+      self.btn_mul.clicked.connect(self.mul)
+      self.btn_div.clicked.connect(self.div)
+      self.btn_absDiff.clicked.connect(self.absdiff)
+      self.btn_bitand.clicked.connect(self.bitand)
+      self.btn_bitor.clicked.connect(self.bitor)
+      self.btn_bitnot.clicked.connect(self.bitnot)
+      self.btn_bitxor.clicked.connect(self.bitxor)
 
       ## Histogram ## 
       self.btn_openlistHisto.clicked.connect(self.openAllHisto)#for Histogram
@@ -125,22 +139,40 @@ class Main(QMainWindow):
       self.filterDoList=[]
       self.filterDoListModel = QtGui.QStandardItemModel()
       self.btn_openlistThreshold.clicked.connect(self.openAllThreshold)
-      self.btn_doallThreshold.clicked.connect(self.doAllThreshold) 
       self.btn_threshold.clicked.connect(self.threshold)
       self.btn_filter.clicked.connect(self.filter)
       self.btn_morpOpen.clicked.connect(self.morpOpen)
       self.btn_morpClose.clicked.connect(self.morpClose)
+      self.btn_morpErosion.clicked.connect(self.morpErosion)
+      self.btn_morpDilation.clicked.connect(self.morpDilation)
+      self.btn_morpGRADIENT.clicked.connect(self.morpGRADIENT)
+      self.btn_morpTOPHAT.clicked.connect(self.morpTOPHAT)
+      self.btn_morpBLACKHAT.clicked.connect(self.morpBLACKHAT)
+      self.btn_morpHITMISS.clicked.connect(self.morpHITMISS)
       self.btn_resetThreshold.clicked.connect(self.resetThreshold)   
+      self.btn_mask.clicked.connect(self.mask)
+      self.btn_colorReverse.clicked.connect(self.colorReverse)
+      self.btn_equalizeHist.clicked.connect(self.equalizeHist)
+      self.btn_sharpening.clicked.connect(self.sharpening)
+
       self.cb_filter.clear()
       self.cb_filter.addItems(filterList2)
       self.cb_threshold.clear()
       self.cb_threshold.addItems(thresholdList2)
       self.btn_resetDoList.clicked.connect(self.resetDoList)
+
+      self.btn_doallThreshold.clicked.connect(self.doAllThreshold) 
       self.rBtn_addListThreshold.clicked.connect(lambda:self.addToDoList("Threshold"))
       self.rBtn_addListFilter.clicked.connect(lambda:self.addToDoList("Filter"))
+      self.rBtn_addListMask.clicked.connect(lambda:self.addToDoList("Mask"))
       self.rBtn_addListOpen.clicked.connect(lambda:self.addToDoList("Open"))
       self.rBtn_addListClose.clicked.connect(lambda:self.addToDoList("Close"))
-
+      self.rBtn_addListErosion.clicked.connect(lambda:self.addToDoList("Erosion"))
+      self.rBtn_addListDilation.clicked.connect(lambda:self.addToDoList("Dilation"))
+      self.rBtn_addListGRADIENT.clicked.connect(lambda:self.addToDoList("GRADIENT"))
+      self.rBtn_addListColorReverse.clicked.connect(lambda:self.addToDoList("ColorReverse"))
+      self.rBtn_addListEqualizeHist.clicked.connect(lambda:self.addToDoList("EqualizeHist"))
+      self.rBtn_addListSharpening.clicked.connect(lambda:self.addToDoList("Sharpening"))
 
       self.show()
 
@@ -152,7 +184,6 @@ class Main(QMainWindow):
             e.accept()
         else:
             e.ignore()
-
    def dropEvent(self, e):
         if e.mimeData().hasUrls:
             e.accept()
@@ -174,6 +205,20 @@ class Main(QMainWindow):
                   self.lb_imgThreshold.setPixmap(QtGui.QPixmap(fname))
                   self.lb_imgThreshold.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
                   self.lb_imgThreshold.setScaledContents(True)
+                if self.lb_mask.underMouse():
+                  self.lb_mask.setText(fname)   
+                if self.lb_img1_2.underMouse():
+                  self.te_path1_2.setText(fname)
+                  self.lb_img1_2.setPixmap(QtGui.QPixmap(fname))
+                  self.lb_img1_2.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+                  self.lb_img1_2.setScaledContents(True)      
+                if self.lb_img2_2.underMouse():
+                  self.te_path2_2.setText(fname)
+                  self.lb_img2_2.setPixmap(QtGui.QPixmap(fname))
+                  self.lb_img2_2.setSizePolicy(QSizePolicy.Ignored, QSizePolicy.Ignored)
+                  self.lb_img2_2.setScaledContents(True)
+
+  
         else:
             e.ignore()
 
@@ -181,22 +226,6 @@ class Main(QMainWindow):
         self.filterDoList=[]
         self.filterDoListModel = QtGui.QStandardItemModel()
         self.lv_listTH_2.setModel( self.filterDoListModel)
-
-   def addToDoList(self,function):
-      print(function)
-      if function is '':
-         None
-         #buttonReply = QMessageBox.information(self, 'PyQt5 message', "Please choose Directory", QMessageBox.Ok )
-      else:
-         try:
-            self.filterDoList.append(function)
-            self.filterDoListModel.appendRow(QtGui.QStandardItem(function))
-            self.lv_listTH_2.setModel(self.filterDoListModel)
-
-         except Exception as ex:
-            print(ex)
-            print(sys.exc_info)
-            exMsg = QMessageBox.information(self, 'addToDoList', str(sys.exc_info()), QMessageBox.Ok )
     
    def viewBig(self):
       try:
@@ -210,7 +239,6 @@ class Main(QMainWindow):
             #self.lb_imgThreshold.setPixmap(QtGui.QPixmap.fromImage(scipy.misc.toimage(self.imgThreshold)))
          except Exception as ex:
             print(ex)
-  
 
    def morpOpen(self):
          try:
@@ -218,7 +246,6 @@ class Main(QMainWindow):
             kernel = np.ones((self.spinBox_open.value(), self.spinBox_open.value()), np.uint8)
             result = cv2.morphologyEx(img, cv2.MORPH_OPEN, kernel)
             self.imgThreshold=result
-            cv2.imshow("Source", img)
             cv2.imshow("Result", result)
          except Exception as ex:
             print(ex)
@@ -230,8 +257,94 @@ class Main(QMainWindow):
             kernel = np.ones((self.spinBox_close.value(), self.spinBox_close.value()), np.uint8)
             result = cv2.morphologyEx(img, cv2.MORPH_CLOSE, kernel)
             self.imgThreshold=result
-            cv2.imshow("Source", img)
             cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def morpErosion(self):
+         try:
+            img = self.imgThreshold
+            kernel = np.ones((self.spinBox_erosion.value(), self.spinBox_erosion.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_ERODE, kernel)
+            self.imgThreshold=result
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def morpDilation(self):
+         try:
+            img = self.imgThreshold
+            kernel = np.ones((self.spinBox_dilation.value(), self.spinBox_dilation.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_DILATE, kernel)
+            self.imgThreshold=result
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def morpGRADIENT(self):
+         try:
+            img = self.imgThreshold
+            kernel = np.ones((self.spinBox_GRADIENT.value(), self.spinBox_GRADIENT.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
+            self.imgThreshold=result
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def morpTOPHAT(self):
+         try:
+            img = self.imgThreshold
+            kernel = np.ones((self.spinBox_TOPHAT.value(), self.spinBox_TOPHAT.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_TOPHAT, kernel)
+            self.imgThreshold=result
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def morpBLACKHAT(self):
+         try:
+            img = self.imgThreshold
+            kernel = np.ones((self.spinBox_BLACKHAT.value(), self.spinBox_BLACKHAT.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_BLACKHAT, kernel)
+            self.imgThreshold=result
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def morpHITMISS(self):
+         try:
+            img = self.imgThreshold
+            kernel = np.ones((self.spinBox_HITMISS.value(), self.spinBox_HITMISS.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_HITMISS, kernel)
+            self.imgThreshold=result
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def mask(self):
+         try:
+            img = self.imgThreshold
+            maskimg = cv2.imread(self.lb_mask.text(), cv2.IMREAD_GRAYSCALE)
+            masked = cv2.bitwise_or(img,img,mask=maskimg) 
+            self.imgThreshold=masked
+            cv2.imshow("Result", masked);
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def colorReverse(self):
+         try:
+            img = self.imgThreshold
+            result = cv2.bitwise_not(img)
+            self.imgThreshold=result
+            cv2.imshow("Result", result);
          except Exception as ex:
             print(ex)
             QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
@@ -241,7 +354,6 @@ class Main(QMainWindow):
             img = self.imgThreshold
             ret, result = cv2.threshold(img,self.spinBox.value(),self.spinBox_2.value(), thresholdList[self.cb_threshold.currentIndex()])
             self.imgThreshold=result
-            cv2.imshow("Source", img)
             cv2.imshow("Result", result)
          except Exception as ex:
             print(ex)
@@ -252,11 +364,86 @@ class Main(QMainWindow):
             img = self.imgThreshold
             result = cv2.adaptiveThreshold(img, self.spinBox_5.value(), filterList[self.cb_filter.currentIndex()], thresholdList[self.cb_threshold.currentIndex()], self.spinBox_3.value(), self.spinBox_4.value())   
             self.imgThreshold=result
-            cv2.imshow("Source", img)
             cv2.imshow("Result", result)
          except Exception as ex:
             print(ex)
             QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def equalizeHist(self):    
+         try:
+            img = self.imgThreshold
+            result = cv2.equalizeHist(img)   
+            self.imgThreshold=result
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def sharpening(self):    
+         try:
+            img = self.imgThreshold 
+            sharpening_1 = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+            #sharpening_1 = np.array([[-1, -1, -1, -1, -1], [-1, 2, 2, 2, -1],[-1, 2, 9, 2, -1], [-1, 2, 2, 2, -1],[-1, -1, -1, -1, -1]]) / 9.0
+            result = cv2.filter2D(img, -1, sharpening_1)
+            self.imgThreshold=result
+            cv2.imshow("Result", result)
+         except Exception as ex:
+            print(ex)
+            QMessageBox.information(self, 'ex', str(sys.exc_info()), QMessageBox.Ok )
+
+   def sharpening2(self,img):
+         try:
+            sharpening_1 = np.array([[-1, -1, -1], [-1, 9, -1], [-1, -1, -1]])
+            result = cv2.filter2D(img, -1, sharpening_1)
+         except Exception as ex:
+            print(ex)
+         return result;
+
+   def equalizeHist2(self,img):
+         try:
+            result = cv2.equalizeHist(img)
+         except Exception as ex:
+            print(ex)
+         return result;
+
+   def colorReverse2(self,img):
+         try:
+            result = cv2.bitwise_not(img)
+         except Exception as ex:
+            print(ex)
+         return result;
+
+   def morpErosion2(self,img):
+         try:
+            kernel = np.ones((self.spinBox_erosion.value(), self.spinBox_erosion.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_ERODE, kernel)
+         except Exception as ex:
+            print(ex)
+         return result;
+
+   def morpDilation2(self,img):
+         try:
+            kernel = np.ones((self.spinBox_dilation.value(), self.spinBox_dilation.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_DILATE, kernel)
+         except Exception as ex:
+            print(ex)
+         return result;
+
+   def morpGRADIENT2(self,img):
+         try:
+            kernel = np.ones((self.spinBox_GRADIENT.value(), self.spinBox_GRADIENT.value()), np.uint8)
+            result = cv2.morphologyEx(img, cv2.MORPH_GRADIENT, kernel)
+         except Exception as ex:
+            print(ex)
+         return result;
+
+   def mask2(self,img):
+         try:
+            maskimg = cv2.imread(self.lb_mask.text(), cv2.IMREAD_GRAYSCALE)
+            masked = cv2.bitwise_or(img,img,mask=maskimg) 
+         except Exception as ex:
+            print(ex)
+         return masked;
 
    def morpOpen2(self,img):
          try:
@@ -395,6 +582,96 @@ class Main(QMainWindow):
             model.appendRow(QtGui.QStandardItem(file))
          self.lv_listBright.setModel(model)    
 
+
+   def add(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.add(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
+
+   def sub(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.subtract(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
+
+   def mul(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.multiply(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
+
+   def div(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.divide(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
+
+   def absdiff(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.absdiff(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
+
+   def bitand(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.bitwise_and(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
+
+   def bitor(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.bitwise_or(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
+
+   def bitnot(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.bitwise_not(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
+
+   def bitxor(self):
+      if self.te_path1_2.toPlainText() !='' and self.te_path2_2.toPlainText() !='' :
+         img1 = cv2.imread(self.te_path1_2.toPlainText(),cv2.IMREAD_GRAYSCALE)
+         img2 = cv2.imread(self.te_path2_2.toPlainText(), cv2.IMREAD_GRAYSCALE)
+         dst = cv2.bitwise_xor(img1,img2)
+         cv2.imshow("Result", dst);
+         cv2.waitKey(0)
+      else :
+         QMessageBox.information(self, 'Result', "Please choose img", QMessageBox.Ok )
 
    def absdiff2(self,img1path,img2path):
          path = os.path.abspath(self.te_dirCal.toPlainText())
@@ -1114,33 +1391,43 @@ class Main(QMainWindow):
          try:
              if os.path.isfile(path+'/result.csv'):
                 os.remove(path+'/result.csv')
+                time.sleep(0.05)
 
              if os.path.isdir(path+'/subtract'):
                 shutil.rmtree(os.path.join(path+'/subtract'))
-                time.sleep(0.1)
+                time.sleep(0.05)
                 os.makedirs(os.path.join(path+'/subtract'))
+                time.sleep(0.05)
              elif not(os.path.isdir(path+'/subtract')):
                  os.makedirs(os.path.join(path+'/subtract'))
+                 time.sleep(0.05)
+
              if os.path.isdir(path+'/absdiff'):
                  shutil.rmtree(os.path.join(path+'/absdiff'))
-                 time.sleep(0.1)
+                 time.sleep(0.05)
                  os.makedirs(os.path.join(path+'/absdiff'))
+                 time.sleep(0.05)
              elif not(os.path.isdir(path+'/absdiff')):
                  os.makedirs(os.path.join(path+'/absdiff'))
+                 time.sleep(0.05)
 
              if os.path.isdir(path+'/skimageDiff'):
                 shutil.rmtree(os.path.join(path+'/skimageDiff'))
-                time.sleep(0.1)
+                time.sleep(0.05)
                 os.makedirs(os.path.join(path+'/skimageDiff'))
+                time.sleep(0.05)
              elif not(os.path.isdir(path+'/skimageDiff')):
                  os.makedirs(os.path.join(path+'/skimageDiff'))
+                 time.sleep(0.05)
 
              if os.path.isdir(path+'/skimageThreshold'):
                 shutil.rmtree(os.path.join(path+'/skimageThreshold'))
-                time.sleep(0.1)
+                time.sleep(0.05)
                 os.makedirs(os.path.join(path+'/skimageThreshold'))
+                time.sleep(0.05)
              elif not(os.path.isdir(path+'/skimageThreshold')):
                  os.makedirs(os.path.join(path+'/skimageThreshold'))
+                 time.sleep(0.05)
 
          except OSError as e:
              if e.errno != errno.EEXIST:
@@ -1181,13 +1468,13 @@ class Main(QMainWindow):
                self.te_log.moveCursor(QtGui.QTextCursor.End)
                time.sleep(0.05)
                tensorrst="0"
-               '''
+
                tensorrst = self.tensorSSIM(img1,img2)
                self.te_log.setText(self.te_log.toPlainText()+"\n"+"TensorSSIMRate:"+tensorrst)
                self.te_log.setText(self.te_log.toPlainText()+"\n--------------------------")
                self.te_log.moveCursor(QtGui.QTextCursor.End)
                time.sleep(0.05)
-               '''
+
                rst = rst+img1+","+img2+","+matchrst+","+skirst+","+tensorrst+"\n"
                with open(path+"/result.csv", mode="w") as file:
                   file.writelines(rst)       
@@ -1210,6 +1497,21 @@ class Main(QMainWindow):
             print(sys.exc_info)
             exMsg = QMessageBox.information(self, 'doAllCal', str(sys.exc_info()), QMessageBox.Ok )
 
+   def addToDoList(self,function):
+      print(function)
+      if function is '':
+         None
+         #buttonReply = QMessageBox.information(self, 'PyQt5 message', "Please choose Directory", QMessageBox.Ok )
+      else:
+         try:
+            self.filterDoList.append(function)
+            self.filterDoListModel.appendRow(QtGui.QStandardItem(function))
+            self.lv_listTH_2.setModel(self.filterDoListModel)
+
+         except Exception as ex:
+            print(ex)
+            print(sys.exc_info)
+            exMsg = QMessageBox.information(self, 'addToDoList', str(sys.exc_info()), QMessageBox.Ok )
 
    def doAllThreshold(self):
       print("start")
@@ -1238,13 +1540,30 @@ class Main(QMainWindow):
                         img = self.morpOpen2(img)
                     elif item == "Close":
                         img = self.morpClose2(img)
+                    elif item == "Erosion":
+                        img = self.morpErosion2(img)
+                    elif item == "Dilation":
+                        img = self.morpDilation2(img)
+                    elif item == "Mask":
+                        img = self.mask2(img)
+                    elif item == "GRADIENT":
+                        img = self.morpGRADIENT2(img)
+                    elif item == "ColorReverse":
+                        img = self.colorReverse2(img)
+                    elif item == "EqualizeHist":
+                        img = self.equalizeHist2(img)
+                    elif item == "Sharpening":
+                        img = self.sharpening2(img)
                     time.sleep(0.1)
+
                 filename = str(os.path.splitext(os.path.split(file)[1])[0])+item
                 cv2.imwrite(os.path.join(self.te_dirTH.toPlainText())+'/filter/'+filename+'_(+'+itemlist+').png',img)
                 print('filter/'+filename+'_(+'+itemlist+').png')    
                 time.sleep(0.1)
 
              self.resetDoList()
+             emtpymodel = QtGui.QStandardItemModel()
+             self.lv_listTH.setModel(emtpymodel)   
              print("Complete!")
              QMessageBox.information(self, 'doall', "Complete!!", QMessageBox.Ok )
 
